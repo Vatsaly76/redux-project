@@ -10,3 +10,11 @@ export async function fetchPhotos(query,page=1,per_page=20) {
     })
     return res.data.results;    
 }
+
+export async function fetchVideos(query,per_page=10) {
+    const res = await axios.get ('https://api.pexels.com/videos/search', {
+        params:{query,per_page},
+        headers:{Authorization:`Bearer ${PEXELS_KEY}`}
+    })
+    return res.data.videos;    
+}
