@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { fetchPhotos, fetchVideos } from '../api/mediaApi'
 import { setLoading, setError, setResults } from '../redux/features/searchSlice'
 import { useEffect } from 'react';
+import ResultCard from './ResultCard';
 
 const ResultGrid = () => {
 
@@ -10,6 +11,8 @@ const ResultGrid = () => {
   const { query, activeTab, loading, error, results } = useSelector((store) => store.search);
 
   useEffect(function () {
+    if (!query) return; // Don't fetch if query is empty
+    
     const getData = async () => {
       try {
         dispatch(setLoading(true));
@@ -26,7 +29,7 @@ const ResultGrid = () => {
         }
         if (activeTab === 'videos') {
           let response = await fetchVideos(query);
-          data = response.results.map((item) => ({
+          data = response.videos.map((item) => ({
             id: item.id,
             type: 'video',
             title: item.video_files[0].quality,
@@ -35,11 +38,10 @@ const ResultGrid = () => {
           }));
         }
         dispatch(setResults(data));
+        dispatch(setLoading(false));
       } catch (error) {
         dispatch(setError(error.message));
-      } finally {
-        dispatch(setLoading(false));
-      }
+      } 
     }
     getData()
   }, [query, activeTab, dispatch]);
@@ -51,9 +53,11 @@ const ResultGrid = () => {
     return <div className="text-center">Loading...</div>
   }
   return (
-    <div>
-      {results.map((item) => {
-        return item.title
+    <div className="flex flex-wrap gap-4 overflow-auto px-10 justify-center">
+      {results.map((item, index) => {
+        return <div key={index} className="border p-4 mb-4">
+          <ResultCard item={item} />
+        </div>
       })}
     </div>
   )
