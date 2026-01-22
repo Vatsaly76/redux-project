@@ -53,12 +53,10 @@ const ResultGrid = () => {
     return <div className="text-center">Loading...</div>
   }
   return (
-    <div className="flex flex-wrap gap-4 overflow-auto px-10 justify-center">
-      {results.map((item, index) => {
-        return <div key={index} className="border p-4 mb-4">
-          <ResultCard item={item} />
-        </div>
-      })}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-8 max-w-[1600px] mx-auto">
+      {results.map((item, index) => (
+        <ResultCard key={item.id || index} item={item} />
+      ))}
     </div>
   )
 }

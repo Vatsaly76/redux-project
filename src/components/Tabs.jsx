@@ -7,9 +7,10 @@ const Tabs = () => {
     const dispatch = useDispatch();
     const activetab = useSelector((state) => state.search.activeTab);
     return (
-        <div className='flex gap-10 p-5 justify-center items-center text-white'>
+        <div className='flex gap-6 py-6 justify-center items-center text-white bg-gray-900/50'>
             {tabs.map((tab, idx) => (
-                <button className={`${(activetab == tab ? "bg-green-400" : "bg-gray-600")} px-5 py-3 rounded-2xl uppercase hover:bg-green-300 cursor-pointer active:scale-95 duration-200`}
+                <button 
+                    className={`${activetab === tab ? "bg-green-400 text-gray-900 shadow-lg scale-105" : "bg-gray-700 text-white hover:bg-gray-600"} px-8 py-3 rounded-xl uppercase font-semibold cursor-pointer active:scale-95 transition-all duration-200`}
                     key={idx}
                     onClick={() => {
                         dispatch(setActiveTabs(tab))
